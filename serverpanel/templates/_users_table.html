@@ -1,0 +1,22 @@
+<table>
+  <thead><tr><th>Namn</th><th>UID</th><th>Hemkatalog</th><th>Grupper</th><th></th></tr></thead>
+  <tbody>
+  {% for u in users %}
+    <tr>
+      <td><b>{{ u.name }}</b>{% if u.full %} <span class="muted">{{ u.full }}</span>{% endif %}
+        {% if u.admin %}<span class="badge warn">admin</span>{% endif %}</td>
+      <td>{{ u.uid }}</td>
+      <td class="muted">{{ u.home }}</td>
+      <td class="muted">{{ u.groups|join(", ") }}</td>
+      <td class="right">
+        {% if u.name != user %}
+        <button class="btn small danger" hx-post="/users/{{ u.name }}/delete" hx-target="#toast"
+                hx-confirm="Ta bort {{ u.name }} och hela hemkatalogen?">Ta bort</button>
+        {% else %}<span class="muted">du</span>{% endif %}
+      </td>
+    </tr>
+  {% else %}
+    <tr><td colspan="5" class="muted">Inga vanliga användare.</td></tr>
+  {% endfor %}
+  </tbody>
+</table>

@@ -1,0 +1,24 @@
+[project]
+name = "serverpanel"
+version = "0.1.0"
+description = "Webbpanel för att administrera Ubuntu-servrar (POC, inspirerad av Cockpit)"
+requires-python = ">=3.10"
+dependencies = [
+    "fastapi>=0.110",
+    "uvicorn[standard]>=0.29",
+    "jinja2>=3.1",
+    "python-multipart>=0.0.9",
+    "itsdangerous>=2.1",
+    "psutil>=5.9",
+    "python-pam>=2.0",
+]
+
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools]
+packages = ["serverpanel", "serverpanel.pages"]
+
+[tool.setuptools.package-data]
+serverpanel = ["templates/*.html", "static/*"]

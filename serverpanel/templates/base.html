@@ -1,0 +1,34 @@
+<!doctype html>
+<html lang="sv">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{{ title }} · {{ hostname }}</title>
+  <link rel="stylesheet" href="/static/style.css">
+  <script src="https://unpkg.com/htmx.org@1.9.12/dist/htmx.min.js"></script>
+  <script src="/static/app.js" defer></script>
+  {% block head %}{% endblock %}
+</head>
+<body hx-headers='{"X-CSRF-Token": "{{ csrf }}"}'>
+  <aside class="sidebar">
+    <div class="brand">⚙ Serverpanel</div>
+    <div class="host">{{ hostname }}</div>
+    <nav>
+      {% for key, href, label in nav %}
+        <a href="{{ href }}" class="{{ 'active' if page == key }}">{{ label }}</a>
+      {% endfor %}
+    </nav>
+    <form class="me" method="post" action="/logout">
+      <input type="hidden" name="csrf" value="{{ csrf }}">
+      <span>Inloggad som <b>{{ user }}</b></span>
+      <button class="btn small ghost">Logga ut</button>
+    </form>
+  </aside>
+  <main>
+    <h1>{{ title }}</h1>
+    {% if dev %}<div class="devbanner">DEV-läge: ändringar simuleras, inget körs som root.</div>{% endif %}
+    <div id="toast"></div>
+    {% block content %}{% endblock %}
+  </main>
+</body>
+</html>

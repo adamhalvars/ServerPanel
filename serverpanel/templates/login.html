@@ -1,0 +1,20 @@
+<!doctype html>
+<html lang="sv">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Logga in · {{ hostname }}</title>
+  <link rel="stylesheet" href="/static/style.css">
+</head>
+<body class="login-body">
+  <form class="card login" method="post" action="/login">
+    <div class="brand">⚙ Serverpanel</div>
+    <div class="host">{{ hostname }}</div>
+    {% if dev %}<div class="devbanner">DEV-läge: valfritt användarnamn, lösenord <code>dev</code></div>{% endif %}
+    {% if error %}<div class="alert err">{{ error }}</div>{% endif %}
+    <label>Användarnamn <input name="username" value="{{ username or '' }}" autocomplete="username" required autofocus></label>
+    <label>Lösenord <input name="password" type="password" autocomplete="current-password" required></label>
+    <button class="btn primary">Logga in</button>
+  </form>
+</body>
+</html>

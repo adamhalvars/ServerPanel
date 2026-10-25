@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% block content %}
+<section class="card">
+  <form id="log-filter" class="inline-form" hx-get="/logs/entries" hx-target="#log-body"
+        hx-trigger="load, submit, change from:select">
+    <label>Tjänst <input name="unit" placeholder="t.ex. ssh.service" autocomplete="off"></label>
+    <label>Lägsta nivå
+      <select name="priority">
+        {% for n, name in priorities %}<option value="{{ n }}" {{ 'selected' if n == 6 }}>{{ name }}</option>{% endfor %}
+      </select>
+    </label>
+    <label>Antal
+      <select name="lines"><option>100</option><option selected>200</option><option>500</option><option>2000</option></select>
+    </label>
+    <button class="btn">Visa</button>
+    <button type="button" id="follow" class="btn">▶ Följ live</button>
+  </form>
+</section>
+<section class="card logs">
+  <table>
+    <thead><tr><th>Tid</th><th>Nivå</th><th>Källa</th><th>Meddelande</th></tr></thead>
+    <tbody id="log-body"></tbody>
+  </table>
+</section>
+{% endblock %}

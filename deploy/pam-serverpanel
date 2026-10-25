@@ -1,0 +1,3 @@
+# /etc/pam.d/serverpanel
+@include common-auth
+@include common-account

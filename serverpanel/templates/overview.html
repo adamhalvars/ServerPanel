@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+{% block content %}
+<div hx-get="/partials/stats" hx-trigger="every 5s">
+  {% include "_stats.html" %}
+</div>
+<section class="card">
+  <h2>System</h2>
+  <dl class="kv">
+    {% for k, v in info.items() %}<dt>{{ k }}</dt><dd>{{ v }}</dd>{% endfor %}
+  </dl>
+</section>
+{% endblock %}

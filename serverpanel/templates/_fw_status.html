@@ -1,0 +1,30 @@
+{% if error %}
+<div class="alert err"><strong>Kunde inte läsa ufw-status</strong><pre>{{ error }}</pre></div>
+{% else %}
+<div class="card-head">
+  <h2>Status: {% if active %}<span class="badge ok">aktiv</span>{% else %}<span class="badge err">inaktiv</span>{% endif %}</h2>
+  {% if active %}
+    <button class="btn danger" hx-post="/firewall/toggle" hx-vals='{"enable": false}' hx-target="#toast"
+            hx-confirm="Stänga av brandväggen?">Stäng av</button>
+  {% else %}
+    <button class="btn primary" hx-post="/firewall/toggle" hx-vals='{"enable": true}' hx-target="#toast"
+            hx-confirm="Aktivera brandväggen? Se till att SSH (22) och panelens port är tillåtna först, annars kan du låsa ute dig!">Aktivera</button>
+  {% endif %}
+</div>
+<table>
+  <thead><tr><th>#</th><th>Till</th><th>Åtgärd</th><th>Från</th><th></th></tr></thead>
+  <tbody>
+  {% for r in rules %}
+    <tr>
+      <td>{{ r.num }}</td><td><b>{{ r.to }}</b></td>
+      <td><span class="badge {{ 'ok' if r.action == 'ALLOW' else 'err' }}">{{ r.action }} {{ r.dir }}</span></td>
+      <td class="muted">{{ r.src }}</td>
+      <td class="right"><button class="btn small danger" hx-post="/firewall/delete" hx-vals='{"num": "{{ r.num }}"}'
+          hx-target="#toast" hx-confirm="Ta bort regel {{ r.num }} ({{ r.to }})?">Ta bort</button></td>
+    </tr>
+  {% else %}
+    <tr><td colspan="5" class="muted">Inga regler.</td></tr>
+  {% endfor %}
+  </tbody>
+</table>
+{% endif %}

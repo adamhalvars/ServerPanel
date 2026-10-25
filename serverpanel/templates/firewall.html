@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% block content %}
+<section class="card">
+  <div hx-get="/firewall/status" hx-trigger="load, refresh from:body">
+    <div class="muted">Laddar …</div>
+  </div>
+</section>
+<section class="card">
+  <h2>Ny regel</h2>
+  <form class="inline-form" hx-post="/firewall/rule" hx-target="#toast"
+        hx-on::after-request="if (event.detail.successful) this.reset()">
+    <label>Port <input name="port" placeholder="t.ex. 80/tcp eller 6000:6010/udp" required
+           pattern="\d{1,5}(:\d{1,5})?(/(tcp|udp))?"></label>
+    <label>Åtgärd
+      <select name="action"><option value="allow">Tillåt</option><option value="deny">Blockera</option></select>
+    </label>
+    <button class="btn primary">Lägg till</button>
+  </form>
+</section>
+{% endblock %}

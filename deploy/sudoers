@@ -1,0 +1,5 @@
+# /etc/sudoers.d/serverpanel  (installeras med mode 0440)
+# Tjänstanvändaren får BARA köra hjälparen som root. Hjälparen vitlistar
+# och validerar varje åtgärd. Sökvägen måste matcha installationen exakt,
+# och båda filerna måste ägas av root och inte vara skrivbara av serverpanel.
+serverpanel ALL=(root) NOPASSWD: /opt/serverpanel/.venv/bin/python3 -I /opt/serverpanel/serverpanel/helper.py *

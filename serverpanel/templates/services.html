@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+{% block content %}
+{% if failed %}<div class="alert err"><strong>{{ failed }} tjänst(er) har misslyckats.</strong> Välj filtret "Misslyckade" för att se dem.</div>{% endif %}
+<section class="card">
+  <form id="svc-filter" class="inline-form" hx-get="/services/table" hx-target="#svc-table"
+        hx-trigger="input changed delay:300ms from:input, change from:select">
+    <input type="search" name="q" placeholder="Filtrera tjänster" autocomplete="off">
+    <select name="state">
+      <option value="running">Körs</option>
+      <option value="failed">Misslyckade</option>
+      <option value="inactive">Inaktiva</option>
+      <option value="all">Alla</option>
+    </select>
+  </form>
+  <div id="svc-table" hx-get="/services/table" hx-include="#svc-filter" hx-trigger="refresh from:body">
+    {% include "_services_table.html" %}
+  </div>
+</section>
+{% endblock %}

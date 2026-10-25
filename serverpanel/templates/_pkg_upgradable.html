@@ -1,0 +1,11 @@
+{% if not pkgs %}
+<p class="ok-text">✓ Systemet är uppdaterat.</p>
+{% else %}
+<p><b>{{ pkgs|length }}</b> paket kan uppgraderas.</p>
+<table>
+  <thead><tr><th>Paket</th><th>Nuvarande</th><th>Ny version</th></tr></thead>
+  <tbody>
+  {% for p in pkgs %}<tr><td>{{ p.name }}</td><td class="muted">{{ p.old }}</td><td>{{ p.new }}</td></tr>{% endfor %}
+  </tbody>
+</table>
+{% endif %}

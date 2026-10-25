@@ -1,0 +1,28 @@
+{% macro act(unit, verb, label, cls="") %}
+<button class="btn small {{ cls }}" hx-post="/services/action" hx-target="#toast"
+        hx-vals='{{ {"unit": unit, "verb": verb}|tojson }}'
+        {% if verb in ("stop", "disable") %}hx-confirm="{{ label }} {{ unit }}?"{% endif %}>{{ label }}</button>
+{% endmacro %}
+<table>
+  <thead><tr><th>Tjänst</th><th>Status</th><th>Vid uppstart</th><th></th></tr></thead>
+  <tbody>
+  {% for s in services %}
+    <tr>
+      <td><b>{{ s.unit }}</b><div class="muted">{{ s.desc }}</div></td>
+      <td><span class="badge {{ 'ok' if s.sub == 'running' else 'err' if s.active == 'failed' else '' }}">{{ s.active }} ({{ s.sub }})</span></td>
+      <td class="muted">{{ s.enabled }}</td>
+      <td class="right nowrap">
+        {% if s.active == "active" %}
+          {{ act(s.unit, "restart", "Starta om") }}{{ act(s.unit, "stop", "Stoppa", "danger") }}
+        {% else %}
+          {{ act(s.unit, "start", "Starta", "primary") }}
+        {% endif %}
+        {% if s.enabled == "enabled" %}{{ act(s.unit, "disable", "Inaktivera") }}
+        {% elif s.enabled == "disabled" %}{{ act(s.unit, "enable", "Aktivera") }}{% endif %}
+      </td>
+    </tr>
+  {% else %}
+    <tr><td colspan="4" class="muted">Inga tjänster matchar.</td></tr>
+  {% endfor %}
+  </tbody>
+</table>

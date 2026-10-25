@@ -1,0 +1,25 @@
+{% if error %}
+<p class="muted">{{ error }}</p>
+{% elif results is not none %}
+  {% if not results %}<p class="muted">Inga träffar.</p>{% else %}
+  <table>
+    <thead><tr><th>Paket</th><th>Beskrivning</th><th></th></tr></thead>
+    <tbody>
+    {% for p in results %}
+      <tr>
+        <td><b>{{ p.name }}</b>{% if p.installed %} <span class="badge ok">installerad {{ p.version }}</span>{% endif %}</td>
+        <td class="muted">{{ p.desc }}</td>
+        <td class="right">
+          {% if p.installed %}
+            <button class="btn small danger" data-action="apt-remove" data-args="{{ p.name }}"
+                    data-confirm="Avinstallera {{ p.name }}?">Avinstallera</button>
+          {% else %}
+            <button class="btn small primary" data-action="apt-install" data-args="{{ p.name }}">Installera</button>
+          {% endif %}
+        </td>
+      </tr>
+    {% endfor %}
+    </tbody>
+  </table>
+  {% endif %}
+{% endif %}

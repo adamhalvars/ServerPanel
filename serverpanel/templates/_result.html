@@ -1,0 +1,5 @@
+<div class="alert {{ 'ok' if ok else 'err' }}">
+  <button class="close" onclick="this.parentElement.remove()">×</button>
+  <strong>{{ title }}</strong>
+  {% if output %}<pre>{{ output }}</pre>{% endif %}
+</div>

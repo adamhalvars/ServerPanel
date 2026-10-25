@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% block content %}
+<section class="card">
+  <div class="card-head">
+    <h2>Uppdateringar</h2>
+    <div class="actions">
+      <button class="btn" data-action="apt-update">Hämta paketlistor</button>
+      <button class="btn primary" data-action="apt-upgrade" data-confirm="Uppgradera alla paket?">Uppgradera alla</button>
+    </div>
+  </div>
+  <div hx-get="/packages/upgradable" hx-trigger="load, refresh from:body">
+    <div class="muted">Laddar …</div>
+  </div>
+</section>
+
+<pre id="console" class="console" hidden></pre>
+
+<section class="card">
+  <div class="card-head">
+    <h2>Sök och installera</h2>
+    <span class="muted">{{ installed_count }} paket installerade</span>
+  </div>
+  <input type="search" name="q" placeholder="Sök paket, t.ex. nginx" autocomplete="off"
+         hx-get="/packages/search" hx-trigger="input changed delay:400ms, search, refresh from:body"
+         hx-target="#search-results">
+  <div id="search-results"></div>
+</section>
+{% endblock %}

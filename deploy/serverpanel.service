@@ -1,0 +1,17 @@
+[Unit]
+Description=Serverpanel webbkonsol
+After=network.target
+
+[Service]
+User=serverpanel
+Group=serverpanel
+SupplementaryGroups=systemd-journal
+EnvironmentFile=/etc/serverpanel/env
+WorkingDirectory=/opt/serverpanel
+ExecStart=/opt/serverpanel/.venv/bin/uvicorn serverpanel.main:app \
+    --host 0.0.0.0 --port 9090 \
+    --ssl-keyfile /etc/serverpanel/key.pem --ssl-certfile /etc/serverpanel/cert.pem
+Restart=on-failure
+
+[Install]
+WantedBy=multi-user.target

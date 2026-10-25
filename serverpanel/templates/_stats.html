@@ -1,0 +1,20 @@
+{% macro meter(label, pct, text) %}
+<div class="stat">
+  <div class="stat-head"><span>{{ label }}</span><b>{{ "%.0f"|format(pct) }} %</b></div>
+  <div class="meter {{ 'hot' if pct > 85 else 'warm' if pct > 65 }}"><div style="width: {{ pct }}%"></div></div>
+  <div class="muted">{{ text }}</div>
+</div>
+{% endmacro %}
+<div class="grid">
+  <section class="card">
+    <h2>Prestanda</h2>
+    {{ meter("CPU", s.cpu, "Last: " ~ s.load) }}
+    {{ meter("Minne", s.mem_pct, s.mem_text) }}
+    {{ meter("Swap", s.swap_pct, s.swap_text) }}
+    <div class="muted">Upptid: {{ s.uptime }}</div>
+  </section>
+  <section class="card">
+    <h2>Diskar</h2>
+    {% for d in s.disks %}{{ meter(d.mount, d.pct, d.text) }}{% endfor %}
+  </section>
+</div>

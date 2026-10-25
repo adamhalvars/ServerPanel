@@ -1,0 +1,5 @@
+{% if error %}<tr><td colspan="4" class="err-text">{{ error }}</td></tr>{% endif %}
+{% for e in entries %}
+<tr class="p{{ e.prio }}"><td class="nowrap muted">{{ e.time }}</td><td>{{ e.prio }}</td><td class="nowrap">{{ e.ident }}</td><td class="msg">{{ e.msg }}</td></tr>
+{% else %}{% if not error %}<tr><td colspan="4" class="muted">Inga loggposter.</td></tr>{% endif %}
+{% endfor %}
